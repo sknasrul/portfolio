@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sk Nasrul - Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@500;600&display=swap" rel="stylesheet">
+<style>
+    /* =====================================================================
+       ANIMATION SETTINGS  —  change only these values to tune the timing
+       ===================================================================== */
+    :root{
+        /* "Hi 👋" */
+        --hi-delay:      .3s;    /* wait before "Hi" appears                  */
+        --hi-duration:   1.8s;   /* how long "Hi" stays on screen in total     */
+        --wave-delay:    .6s;    /* when the 👋 starts waving                  */
+        --wave-duration: .8s;    /* one wave                                   */
+
+        /* "I'm Nasrul" — everything below is timed from this moment */
+        --name-delay:    1.9s;   /* when the name appears (≈ end of "Hi")      */
+
+        /* Reveal rhythm */
+        --step:          .22s;   /* gap between name → paragraph → card → title */
+        --icon-gap:      .14s;   /* gap between each app icon                  */
+        --rise-duration: .7s;    /* length of every fade-and-rise              */
+        --rise-distance: 14px;   /* how far things slide up while appearing    */
+
+        /* Video & hover */
+        --video-fade:    .4s;
+        --hover-speed:   .25s;
+
+        /* Layout */
+        --greeting-size: 3rem;   /* font size of the "Hi" / name line          */
+        --bottom-gap:    1rem;   /* space between Projects card and screen bottom */
+
+        /* Look */
+        --ease: cubic-bezier(.22, 1, .36, 1);
+        --ink: #1c1c28;
+    }
+    /* ===================================================================== */
+
+    *{
+        box-sizing: border-box;
+        font-family: Parkinsans, system-ui, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+        -webkit-tap-highlight-color: transparent;
+    }
+    html{ -webkit-text-size-adjust: 100%; }
+    body{
+        background: #fff;
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 24px 0 var(--bottom-gap);
+        overflow-x: hidden;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    video{
+        width: 100%;
+        max-width: 300px;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        object-fit: cover;
+        background: transparent;
+        opacity: 0;
+        transition: opacity var(--video-fade) ease;
+        transform: translateZ(0);
+    }
+    video.ready{ opacity: 1; }
+
+    /* ---------- Background blobs ---------- */
+    .blob{
+        position: fixed;
+        z-index: -1;
+        border-radius: 50%;
+        opacity: .6;
+        pointer-events: none;
+    }
+    .blob.b1{ width: 460px; height: 460px; top: 35%; left: -170px;
+              background: radial-gradient(circle, #7aa8ff 0%, rgba(122,168,255,0) 70%); }
+    .blob.b2{ width: 440px; height: 440px; top: 52%; right: -170px;
+              background: radial-gradient(circle, #ff8fd0 0%, rgba(255,143,208,0) 70%); }
+    .blob.b3{ width: 400px; height: 400px; bottom: -150px; left: 30%;
+              background: radial-gradient(circle, #ffd27a 0%, rgba(255,210,122,0) 70%); }
+
+    /* ---------- Reveal sequence: hi -> name -> paragraph -> card -> title -> icons ---------- */
+    .greeting,
+    .intro,
+    .projects{ opacity: 0; }
+
+    .greeting{
+        display: grid;
+        place-items: center;
+        height: calc(var(--greeting-size) * 1.4);
+    }
+    .greeting > span{
+        grid-area: 1 / 1;
+        font-size: var(--greeting-size);
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 0;
+    }
+    .wave{
+        display: inline-block;
+        transform-origin: 70% 70%;
+    }
+
+    body.play .greeting{ opacity: 1; }
+
+    body.play .hi{    animation: hiShow var(--hi-duration) linear var(--hi-delay) both; }
+    body.play .wave{  animation: wave var(--wave-duration) ease-in-out var(--wave-delay) 1; }
+
+    body.play .name{     animation: rise var(--rise-duration) var(--ease) var(--name-delay) both; }
+    body.play .intro{    animation: rise var(--rise-duration) var(--ease) calc(var(--name-delay) + var(--step) * 1) both; }
+    body.play .projects{ animation: rise var(--rise-duration) var(--ease) calc(var(--name-delay) + var(--step) * 2) both; }
+    body.play .projects h2{ animation: rise var(--rise-duration) var(--ease) calc(var(--name-delay) + var(--step) * 3) backwards; }
+    body.play .app{      animation: rise var(--rise-duration) var(--ease)
+                                    calc(var(--name-delay) + var(--step) * 4 + var(--i, 0) * var(--icon-gap)) backwards; }
+
+    @keyframes hiShow{
+        0%   { opacity: 0; transform: translate3d(0,var(--rise-distance),0); animation-timing-function: cubic-bezier(.22,1,.36,1); }
+        22%  { opacity: 1; transform: translate3d(0,0,0); }
+        80%  { opacity: 1; transform: translate3d(0,0,0); animation-timing-function: ease-in; }
+        100% { opacity: 0; transform: translate3d(0,-8px,0); }
+    }
+    @keyframes rise{
+        from { opacity: 0; transform: translate3d(0,var(--rise-distance),0); }
+        to   { opacity: 1; transform: translate3d(0,0,0); }
+    }
+    @keyframes wave{
+        0%, 100% { transform: rotate(0deg); }
+        20% { transform: rotate(18deg); }
+        40% { transform: rotate(-10deg); }
+        60% { transform: rotate(14deg); }
+        80% { transform: rotate(-4deg); }
+    }
+
+    /* ---------- Intro paragraph ---------- */
+    .intro{
+        width: min(92%, 440px);
+        margin: 0;
+        text-align: center;
+        font-size: .98rem;
+        line-height: 1.65;
+        font-weight: 500;
+        color: #4a4a5c;
+        text-wrap: balance;
+    }
+    .intro strong{ color: var(--ink); font-weight: 600; }
+
+    /* ---------- Projects (liquid glass) ---------- */
+    .projects{
+        position: relative;
+        margin-top: auto;               /* pushes the card to the bottom of the screen */
+        width: min(92%, 440px);
+        padding: 22px 22px 26px;
+        border-radius: 32px;
+        background: linear-gradient(135deg,
+                    rgba(255,255,255,.55) 0%,
+                    rgba(255,255,255,.18) 50%,
+                    rgba(255,255,255,.35) 100%);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,.65);
+        box-shadow:
+            0 10px 35px rgba(30, 40, 90, .15),
+            inset 0 1px 1px rgba(255,255,255,.9),
+            inset 0 -1px 2px rgba(255,255,255,.35);
+        overflow: hidden;
+    }
+    .projects::before{
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 55%;
+        background: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,0));
+        border-radius: 32px 32px 60% 60% / 32px 32px 30% 30%;
+        pointer-events: none;
+    }
+    .projects h2{
+        position: relative;
+        margin: 0 0 18px;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+    .apps{
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+        gap: 20px 12px;
+    }
+    .app{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--ink);
+        transition: transform var(--hover-speed) var(--ease);
+    }
+    .app:hover{ transform: translate3d(0,-4px,0) scale(1.05); }
+    .app:active{ transform: scale(.95); }
+    .icon{
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        font-size: 1.7rem;
+        background: rgba(255,255,255,.6);
+        box-shadow: 0 4px 12px rgba(0,0,0,.15), inset 0 1px 1px rgba(255,255,255,.8);
+    }
+    .icon img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+    .app span{
+        font-size: .75rem;
+        text-align: center;
+        max-width: 76px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+</head>
+<body>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+
+    <video id="intro" autoplay muted playsinline preload="auto">
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <div class="greeting" id="greeting">
+        <span class="hi">Hi, <span class="wave">👋</span></span>
+        <span class="name">I'm Nasrul</span>
+    </div>
+
+    <p class="intro">
+        Explore my <strong>open-source projects</strong> &mdash; thoughtfully engineered,
+        optimised for performance, and built to be fast, reliable, and easy to build on.
+    </p>
+
+    <section class="projects">
+        <h2>Projects</h2>
+        <div class="apps">
+            <!-- Copy this block for each app. Replace the emoji with <img src="icon.png" alt=""> -->
+            <a class="app" href="#">
+                <div class="icon">📱</div>
+                <span>App One</span>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        const video = document.getElementById('intro');
+
+        // Fade the video in as soon as a frame is ready (never blocks the page)
+        const showVideo = () => video.classList.add('ready');
+        if (video.readyState >= 2) showVideo();
+        video.addEventListener('loadeddata', showVideo);
+        video.addEventListener('playing', showVideo);
+        video.addEventListener('error', showVideo);
+
+        // Stagger index for app icons
+        document.querySelectorAll('.app').forEach((a, i) => a.style.setProperty('--i', i));
+
+        // Start right away (waits for the font for at most 300ms to avoid text jumping)
+        const start = () => requestAnimationFrame(() => document.body.classList.add('play'));
+        if (document.fonts && document.fonts.ready) {
+            Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 300))]).then(start);
+        } else {
+            start();
+        }
+
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {});
+    </script>
+</body>
+</html>
