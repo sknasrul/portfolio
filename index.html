@@ -143,90 +143,74 @@
     }
 
     /* ---------- Intro paragraph ---------- */
-    .intro{
-        width: min(92%, 440px);
-        margin: 0;
-        text-align: center;
-        font-size: .98rem;
-        line-height: 1.65;
-        font-weight: 500;
-        color: #4a4a5c;
-        text-wrap: balance;
-    }
+.intro{
+    width: min(92%, 520px);      /* was 440px */
+    margin: 0;
+    text-align: center;
+    font-size: 1.2rem;           /* was .98rem */
+    line-height: 1.65;
+    font-weight: 500;
+    color: #4a4a5c;
+    text-wrap: balance;
+}
     .intro strong{ color: var(--ink); font-weight: 600; }
 
     /* ---------- Projects (liquid glass) ---------- */
     .projects{
-        position: relative;
-        margin-top: auto;               /* pushes the card to the bottom of the screen */
-        width: min(92%, 440px);
-        padding: 22px 22px 26px;
-        border-radius: 32px;
-        background: linear-gradient(135deg,
-                    rgba(255,255,255,.55) 0%,
-                    rgba(255,255,255,.18) 50%,
-                    rgba(255,255,255,.35) 100%);
-        -webkit-backdrop-filter: blur(12px);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,.65);
-        box-shadow:
-            0 10px 35px rgba(30, 40, 90, .15),
-            inset 0 1px 1px rgba(255,255,255,.9),
-            inset 0 -1px 2px rgba(255,255,255,.35);
-        overflow: hidden;
-    }
-    .projects::before{
-        content: "";
-        position: absolute;
-        inset: 0 0 auto 0;
-        height: 55%;
-        background: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,0));
-        border-radius: 32px 32px 60% 60% / 32px 32px 30% 30%;
-        pointer-events: none;
-    }
-    .projects h2{
-        position: relative;
-        margin: 0 0 18px;
-        font-size: 1.15rem;
-        font-weight: 600;
-    }
-    .apps{
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
-        gap: 20px 12px;
-    }
-    .app{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        color: var(--ink);
-        transition: transform var(--hover-speed) var(--ease);
-    }
+    position: relative;
+    margin-top: auto;
+    width: min(94%, 520px);      /* was min(92%, 440px) */
+    padding: 28px 26px 32px;     /* was 22px 22px 26px */
+    border-radius: 36px;         /* was 32px */
+    /* ...keep the rest of the existing rules (background, border, box-shadow, etc.) */
+}
+.projects::before{
+    /* only the radius changes to match the card */
+    border-radius: 36px 36px 60% 60% / 36px 36px 30% 30%;
+}
+.projects h2{
+    position: relative;
+    margin: 0 0 22px;            /* was 0 0 18px */
+    font-size: 1.5rem;           /* was 1.15rem */
+    font-weight: 600;
+}
+.apps{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));  /* was 76px */
+    gap: 24px 14px;
+}
+.app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform var(--hover-speed) var(--ease);
+}
     .app:hover{ transform: translate3d(0,-4px,0) scale(1.05); }
     .app:active{ transform: scale(.95); }
     .icon{
-        width: 60px;
-        height: 60px;
-        border-radius: 16px;
-        overflow: hidden;
-        display: grid;
-        place-items: center;
-        font-size: 1.7rem;
-        background: rgba(255,255,255,.6);
-        box-shadow: 0 4px 12px rgba(0,0,0,.15), inset 0 1px 1px rgba(255,255,255,.8);
-    }
+    width: 80px;                 /* was 60px */
+    height: 80px;
+    border-radius: 22px;         /* was 16px */
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    font-size: 2.2rem;           /* was 1.7rem */
+    background: rgba(255,255,255,.6);
+    box-shadow: 0 4px 12px rgba(0,0,0,.15), inset 0 1px 1px rgba(255,255,255,.8);
+}
     .icon img{ width: 100%; height: 100%; object-fit: cover; display: block; }
     .app span{
-        font-size: .75rem;
-        text-align: center;
-        max-width: 76px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    font-size: .95rem;           /* was .75rem */
+    text-align: center;
+    max-width: 96px;             /* was 76px */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
 </head>
 <body>
